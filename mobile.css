@@ -1,0 +1,462 @@
+/* 移动端专用样式 */
+
+/* 触摸优化 */
+@media (hover: none) and (pointer: coarse) {
+    .btn {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 12px 20px;
+    }
+    
+    .tab-btn {
+        min-height: 48px;
+        padding: 12px 16px;
+    }
+    
+    input, textarea, select {
+        min-height: 44px;
+        font-size: 16px; /* 防止iOS缩放 */
+    }
+}
+
+/* 小屏幕优化 */
+@media (max-width: 480px) {
+    /* 头部优化 */
+    .header {
+        padding: 15px 0;
+    }
+    
+    .header h1 {
+        font-size: 1.6rem;
+        margin-bottom: 8px;
+    }
+    
+    .header p {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+    
+    .stats {
+        gap: 15px;
+        justify-content: space-around;
+    }
+    
+    .stat-item {
+        min-width: 70px;
+    }
+    
+    .stat-number {
+        font-size: 1.3rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+    
+    /* 导航标签优化 */
+    .nav-tabs .container {
+        padding: 0 10px;
+    }
+    
+    .tab-btn {
+        font-size: 0.8rem;
+        padding: 10px 12px;
+        min-width: 100px;
+        white-space: nowrap;
+    }
+    
+    /* 卡片优化 */
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .card {
+        padding: 15px;
+        margin: 0 5px;
+    }
+    
+    .card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+    
+    /* 表单优化 */
+    .input-field, 
+    input[type="text"], 
+    textarea {
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 6px;
+    }
+    
+    textarea {
+        min-height: 80px;
+    }
+    
+    /* 按钮优化 */
+    .btn {
+        padding: 12px 16px;
+        font-size: 0.9rem;
+        border-radius: 6px;
+        margin: 3px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .button-group .btn {
+        width: 100%;
+        margin: 0;
+    }
+    
+    /* 聊天界面优化 */
+    .chat-history {
+        height: 200px;
+        font-size: 14px;
+    }
+    
+    .chat-input-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .chat-input-group input {
+        margin-bottom: 0;
+    }
+    
+    .chat-input-group .btn {
+        width: 100%;
+    }
+    
+    /* 工具按钮优化 */
+    .tool-buttons {
+        gap: 6px;
+    }
+    
+    .tool-buttons .btn {
+        font-size: 0.85rem;
+        padding: 10px 12px;
+    }
+    
+    /* 通知优化 */
+    .notifications {
+        left: 5px;
+        right: 5px;
+        top: 10px;
+        max-width: none;
+    }
+    
+    .notification {
+        padding: 12px 15px;
+        font-size: 14px;
+        border-radius: 6px;
+    }
+    
+    /* 模态框优化 */
+    .modal-content {
+        margin: 5% auto;
+        width: 95%;
+        padding: 20px 15px;
+        border-radius: 10px;
+    }
+    
+    .modal-close {
+        right: 10px;
+        top: 10px;
+        font-size: 20px;
+    }
+    
+    /* 组件优化 */
+    .accordion-header {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .accordion-content {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+    
+    .steps {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .step {
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .step-number {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+    
+    .step-title {
+        text-align: left;
+        font-size: 0.9rem;
+    }
+    
+    .timeline {
+        padding-left: 20px;
+    }
+    
+    .timeline-item {
+        padding-left: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .timeline-content {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+    
+    .timeline-date {
+        font-size: 0.75rem;
+    }
+    
+    /* 标签容器优化 */
+    .tag-container {
+        margin: 10px 0;
+    }
+    
+    .tag {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+        margin: 1px;
+    }
+    
+    /* 评分组件优化 */
+    .rating .star {
+        font-size: 18px;
+    }
+    
+    /* 开关标签优化 */
+    .switch-label {
+        padding: 8px 0;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .switch-label span:first-child {
+        font-size: 0.9rem;
+        flex: 1;
+        min-width: 120px;
+    }
+    
+    .switch {
+        width: 40px;
+        height: 20px;
+    }
+    
+    .slider:before {
+        height: 14px;
+        width: 14px;
+        left: 3px;
+        bottom: 3px;
+    }
+    
+    input:checked + .slider:before {
+        transform: translateX(20px);
+    }
+    
+    .badge {
+        font-size: 0.7rem;
+        padding: 2px 6px;
+    }
+    
+    /* 风险项目优化 */
+    .risk-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 0;
+    }
+    
+    .risk-item .rating {
+        align-self: center;
+    }
+    
+    /* 分页优化 */
+    .pagination {
+        flex-wrap: wrap;
+        gap: 3px;
+    }
+    
+    .pagination button {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        min-width: 35px;
+    }
+    
+    /* 面包屑优化 */
+    .breadcrumb {
+        font-size: 0.8rem;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    
+    /* 卡片网格优化 */
+    .card-grid {
+        gap: 10px;
+    }
+    
+    .mini-card {
+        padding: 12px;
+        border-radius: 8px;
+    }
+    
+    .mini-card-title {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+    
+    .mini-card-content {
+        font-size: 0.8rem;
+    }
+}
+
+/* 超小屏幕优化 */
+@media (max-width: 360px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    .header h1 {
+        font-size: 1.4rem;
+    }
+    
+    .stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .stat-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .stat-item:last-child {
+        border-bottom: none;
+    }
+    
+    .stat-number {
+        font-size: 1.2rem;
+    }
+    
+    .tab-btn {
+        font-size: 0.75rem;
+        padding: 8px 10px;
+        min-width: 80px;
+    }
+    
+    .card {
+        padding: 12px;
+        margin: 0;
+    }
+    
+    .modal-content {
+        padding: 15px 10px;
+    }
+}
+
+/* 横屏优化 */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header {
+        padding: 10px 0;
+    }
+    
+    .header h1 {
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+    }
+    
+    .header p {
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+    }
+    
+    .stats {
+        gap: 20px;
+    }
+    
+    .main-content {
+        padding: 15px 0;
+    }
+    
+    .chat-history {
+        height: 150px;
+    }
+    
+    .modal-content {
+        margin: 2% auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}
+
+/* 触摸设备特殊优化 */
+@media (pointer: coarse) {
+    /* 增大可点击区域 */
+    .accordion-header {
+        min-height: 48px;
+    }
+    
+    .timeline-item {
+        cursor: pointer;
+    }
+    
+    .timeline-item:active {
+        background: rgba(0,0,0,0.05);
+        border-radius: 8px;
+    }
+    
+    /* 优化滚动 */
+    .chat-history,
+    .timeline,
+    .nav-tabs .container {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+    
+    /* 防止选中文本 */
+    .btn,
+    .tab-btn,
+    .accordion-header,
+    .step-number {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* PWA支持 */
+@media (display-mode: standalone) {
+    .header {
+        padding-top: 20px; /* 为状态栏留空间 */
+    }
+}
+
+/* 减少动画（性能优化） */
+@media (prefers-reduced-motion: reduce) {
+    .card,
+    .btn,
+    .notification,
+    .modal-content {
+        transition: none !important;
+        animation: none !important;
+    }
+}

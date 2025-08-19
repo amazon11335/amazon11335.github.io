@@ -1,0 +1,188 @@
+/* 图表样式 */
+.chart-container {
+    padding: 20px;
+}
+
+.chart-container h4 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+    text-align: center;
+}
+
+/* 趋势图表 */
+.trend-chart {
+    display: flex;
+    align-items: end;
+    justify-content: space-around;
+    height: 200px;
+    padding: 20px 0;
+    border-bottom: 2px solid #ecf0f1;
+    position: relative;
+}
+
+.trend-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 60px;
+}
+
+.bar {
+    width: 30px;
+    background: linear-gradient(to top, #3498db, #5dade2);
+    border-radius: 4px 4px 0 0;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+    min-height: 10px;
+}
+
+.bar:hover {
+    background: linear-gradient(to top, #2980b9, #3498db);
+    transform: scale(1.1);
+}
+
+.trend-bar .label {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+}
+
+.trend-bar .value {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* 饼图 */
+.pie-chart-container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.pie-chart {
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+}
+
+.pie-chart path {
+    transition: transform 0.3s ease;
+    transform-origin: center;
+}
+
+.pie-chart path:hover {
+    transform: scale(1.05);
+}
+
+.pie-legend {
+    flex: 1;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+/* 风险画像样式 */
+.risk-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.risk-item span:first-child {
+    flex: 0 0 120px;
+    font-size: 0.9em;
+    color: #34495e;
+}
+
+.risk-bar {
+    flex: 1;
+    height: 8px;
+    background: #ecf0f1;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.risk-bar .risk-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #27ae60, #2ecc71);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.risk-level {
+    flex: 0 0 60px;
+    text-align: center;
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+.risk-level.low {
+    background: #d5f4e6;
+    color: #27ae60;
+}
+
+.risk-level.medium {
+    background: #fef9e7;
+    color: #f39c12;
+}
+
+.risk-level.high {
+    background: #fadbd8;
+    color: #e74c3c;
+}
+
+.risk-summary {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .pie-chart-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .pie-chart {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .trend-chart {
+        height: 150px;
+    }
+    
+    .risk-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .risk-item span:first-child {
+        flex: none;
+    }
+    
+    .risk-bar {
+        width: 100%;
+    }
+}
