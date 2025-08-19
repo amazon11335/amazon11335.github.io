@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实时监控演示</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/realtime-alerts.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ 实时监控系统演示</h1>
+        
+        <div class="card">
+            <h3>监控控制</h3>
+            <button class="btn btn-success" onclick="startDemo()">启动监控演示</button>
+            <button class="btn btn-danger" onclick="stopDemo()">停止监控</button>
+            <button class="btn btn-info" onclick="showStats()">查看统计</button>
+        </div>
+
+        <div class="card">
+            <h3>测试输入框</h3>
+            <p>在下面的输入框中输入包含诈骗关键词的内容来测试实时监控：</p>
+            <textarea id="testInput" placeholder="尝试输入：大师算命转运、投资理财稳赚、紧急转账等..." rows="3"></textarea>
+            <input type="text" id="testInput2" placeholder="或者在这里输入测试内容...">
+        </div>
+
+        <div class="card">
+            <h3>测试按钮</h3>
+            <p>点击下面的按钮模拟不同风险等级的内容：</p>
+            <button class="btn btn-outline" onclick="simulateHighRisk()">模拟高风险内容</button>
+            <button class="btn btn-outline" onclick="simulateMediumRisk()">模拟中等风险内容</button>
+            <button class="btn btn-outline" onclick="simulateClipboard()">模拟剪贴板检测</button>
+        </div>
+
+        <div class="card">
+            <h3>动态内容测试</h3>
+            <button class="btn btn-primary" onclick="addSuspiciousContent()">添加可疑内容</button>
+            <button class="btn btn-primary" onclick="addNormalContent()">添加正常内容</button>
+            <div id="dynamicContent"></div>
+        </div>
+
+        <div class="card">
+            <h3>监控日志</h3>
+            <div id="monitorLogs" style="height: 200px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 5px;">
+                <p>监控日志将在这里显示...</p>
+            </div>
+            <button class="btn btn-outline" onclick="clearLogs()">清空日志</button>
+        </div>
+    </div>
+
+    <script src="js/keywords-database.js"></script>
+    <script src="js/risk-algorithm.js"></script>
+    <script src="js/ai-integration.js"></script>
+    <script src="js/data-storage.js"></script>
+    <script src="js/realtime-monitor.js"></script>
+    <script src="js/components.js"></script>
+
+    <script>
+        let demoActive = false;
+
+        function startDemo() {
+            if (demoActive) return;
+            
+            demoActive = true;
+            realtimeMonitor.startMonitoring({
+                sensitivity: 'high',
+                autoBlock: false,
+                soundAlert: true,
+                visualAlert: true,
+                logActivity: true
+            });
+
+            // 开始日志更新
+            updateLogs();
+            setInterval(updateLogs, 2000);
+        }
+
+        function stopDemo() {
+            demoActive = false;
+            realtimeMonitor.stopMonitoring();
+        }
+
+        function showStats() {
+            const stats = realtimeMonitor.getStats();
+            const content = `
+                <h4>监控统计信息</h4>
+                <p><strong>监控状态:</strong> ${stats.isActive ? '运行中' : '已停止'}</p>
+                <p><strong>警报数量:</strong> ${stats.alertCount}</p>
+                <h5>监控器状态:</h5>
+                <ul>
+                    ${stats.monitors.map(m => `<li>${m.name}: ${m.active ? '✅ 活跃' : '❌ 停止'}</li>`).join('')}
+                </ul>
+                <h5>设置:</h5>
+                <ul>
+                    <li>敏感度: ${stats.settings.sensitivity}</li>
+                    <li>自动阻断: ${stats.settings.autoBlock ? '开启' : '关闭'}</li>
+                    <li>声音警报: ${stats.settings.soundAlert ? '开启' : '关闭'}</li>
+                    <li>视觉警报: ${stats.settings.visualAlert ? '开启' : '关闭'}</li>
+                </ul>
+            `;
+            
+            UIComponents.showModal('监控统计', content);
+        }
+
+        function simulateHighRisk() {
+            const testContent = "大师免费算命，转运改命只需998元，保证准确率99%，立即转账到指定账户";
+            realtimeMonitor.analyzeContent(testContent, 'simulation');
+        }
+
+        function simulateMediumRisk() {
+            const testContent = "投资理财项目，月收益15%，有兴趣的朋友可以了解一下";
+            realtimeMonitor.analyzeContent(testContent, 'simulation');
+        }
+
+        function simulateClipboard() {
+            // 模拟剪贴板内容检测
+            const testContent = "紧急通知：您的银行卡存在风险，请立即联系客服验证身份信息";
+            realtimeMonitor.analyzeContent(testContent, 'clipboard');
+        }
+
+        function addSuspiciousContent() {
+            const suspiciousTexts = [
+                "🔮 占卜大师在线算命，准确率99%",
+                "💰 投资理财，日赚千元不是梦",
+                "🚨 您的账户存在异常，请立即验证",
+                "💕 寂寞单身？找真爱就在这里",
+                "🎁 恭喜中奖！请支付手续费领取奖金"
+            ];
+            
+            const randomText = suspiciousTexts[Math.floor(Math.random() * suspiciousTexts.length)];
+            const div = document.createElement('div');
+            div.textContent = randomText;
+            div.style.cssText = 'margin: 10px 0; padding: 10px; background: #fff3cd; border-radius: 5px;';
+            document.getElementById('dynamicContent').appendChild(div);
+        }
+
+        function addNormalContent() {
+            const normalTexts = [
+                "今天天气不错，适合出门散步",
+                "学习新技能，提升自己的能力",
+                "健康饮食，规律作息很重要",
+                "和朋友聊天，分享生活点滴",
+                "阅读好书，丰富精神世界"
+            ];
+            
+            const randomText = normalTexts[Math.floor(Math.random() * normalTexts.length)];
+            const div = document.createElement('div');
+            div.textContent = randomText;
+            div.style.cssText = 'margin: 10px 0; padding: 10px; background: #d4edda; border-radius: 5px;';
+            document.getElementById('dynamicContent').appendChild(div);
+        }
+
+        function updateLogs() {
+            if (!demoActive) return;
+            
+            const logs = JSON.parse(localStorage.getItem('monitorLogs') || '[]');
+            const logsContainer = document.getElementById('monitorLogs');
+            
+            if (logs.length > 0) {
+                logsContainer.innerHTML = logs.slice(0, 10).map(log => 
+                    `<div style="margin: 5px 0; font-size: 12px;">
+                        <span style="color: #666;">[${new Date(log.timestamp).toLocaleTimeString()}]</span>
+                        ${log.message}
+                    </div>`
+                ).join('');
+            }
+        }
+
+        function clearLogs() {
+            localStorage.removeItem('monitorLogs');
+            document.getElementById('monitorLogs').innerHTML = '<p>监控日志已清空</p>';
+        }
+
+        // 页面加载时的提示
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                alert('欢迎使用实时监控演示！\n\n1. 点击"启动监控演示"开始\n2. 在输入框中输入包含诈骗关键词的内容\n3. 观察实时警报和监控面板\n4. 尝试不同的测试按钮');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

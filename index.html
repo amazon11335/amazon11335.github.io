@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全能反诈骗防护中心</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/realtime-alerts.css">
+    <link rel="stylesheet" href="css/education-report.css?v=1.0">
+    <link rel="stylesheet" href="css/charts.css">
+    <style>
+        .help-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .shortcuts-list {
+            margin: 20px 0;
+        }
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        kbd {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .voice-toggle, .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .theme-toggle {
+            right: 150px;
+        }
+        .theme-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        .search-box {
+            position: relative;
+            margin-left: auto;
+        }
+        .search-box input {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            width: 200px;
+        }
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        .search-item {
+            padding: 15px;
+            border-bottom: 1px solid #ecf0f1;
+            cursor: pointer;
+        }
+        .search-item:hover {
+            background: #f8f9fa;
+        }
+        .dark-theme {
+            filter: invert(1) hue-rotate(180deg);
+        }
+        .dark-theme img, .dark-theme video {
+            filter: invert(1) hue-rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面头部 -->
+    <header class="header">
+        <div class="container">
+            <h1>🛡️ 全能反诈骗防护中心</h1>
+            <p>AI驱动的全方位诈骗防护系统</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="detectionCount">0</span>
+                    <span class="stat-label">检测次数</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="riskCount">0</span>
+                    <span class="stat-label">风险拦截</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="safetyScore">100</span>
+                    <span class="stat-label">安全评分</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 导航标签 -->
+    <nav class="nav-tabs">
+        <div class="container">
+            <button class="tab-btn active" data-tab="detection">🔍 智能检测</button>
+            <button class="tab-btn" data-tab="analysis">📊 风险分析</button>
+            <button class="tab-btn" data-tab="education">📚 防骗教育</button>
+            <button class="tab-btn" data-tab="report">📋 举报中心</button>
+            <button class="tab-btn" data-tab="consultation">💬 心理咨询</button>
+            <button class="tab-btn" data-tab="tools">🔧 防护工具</button>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <div class="container">
+            <!-- 智能检测模块 -->
+            <section id="detection" class="tab-content active">
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>🔍 实时内容检测</h3>
+                        <textarea id="contentInput" placeholder="粘贴可疑内容、网址、聊天记录等..." rows="4"></textarea>
+                        <div class="button-group">
+                            <button class="btn btn-primary" id="analyzeBtn">智能分析</button>
+                            <button class="btn btn-danger" id="emergencyBtn">紧急拦截</button>
+                        </div>
+                        <div id="riskResult" class="result-box hidden">
+                            <h4>风险评估结果</h4>
+                            <div class="risk-meter">
+                                <div class="risk-fill" id="riskFill"></div>
+                            </div>
+                            <div id="riskDetails"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>📱 多平台监控</h3>
+                        <div class="monitor-options">
+                            <label><input type="checkbox" checked> 微信聊天监控</label>
+                            <label><input type="checkbox" checked> QQ消息检测</label>
+                            <label><input type="checkbox" checked> 短信内容扫描</label>
+                            <label><input type="checkbox" checked> 网页浏览保护</label>
+                            <label><input type="checkbox" checked> 应用下载检查</label>
+                        </div>
+                        <button class="btn btn-success" id="startMonitorBtn">启动全面监控</button>
+                        <div id="monitorStatus" class="status-box hidden">
+                            <p>✅ 监控已启动，正在保护您的安全</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>🎯 精准识别系统</h3>
+                        <div class="accuracy-display">
+                            <p>AI识别准确率: <span id="accuracy">98.7%</span></p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 98.7%"></div>
+                            </div>
+                        </div>
+                        <div class="detection-types">
+                            <h4>支持识别类型:</h4>
+                            <ul>
+                                <li>占卜算命诈骗 (准确率: 99.2%)</li>
+                                <li>投资理财诈骗 (准确率: 98.8%)</li>
+                                <li>网络购物诈骗 (准确率: 97.5%)</li>
+                                <li>情感诈骗 (准确率: 96.3%)</li>
+                                <li>冒充身份诈骗 (准确率: 99.1%)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 风险分析模块 -->
+            <section id="analysis" class="tab-content">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div id="trendChart"></div>
+                    </div>
+                    <div class="card">
+                        <div id="pieChart"></div>
+                    </div>
+                    <div class="card">
+                        <h3>🎯 个人风险画像</h3>
+                        <div id="riskProfile">
+                            <div class="risk-item">
+                                <span>年龄风险系数</span>
+                                <div class="risk-bar"><div class="risk-fill" style="width: 40%"></div></div>
+                                <span class="risk-level medium">中等</span>
+                            </div>
+                            <div class="risk-item">
+                                <span>职业风险系数</span>
+                                <div class="risk-bar"><div class="risk-fill" style="width: 20%"></div></div>
+                                <span class="risk-level low">低</span>
+                            </div>
+                            <div class="risk-item">
+                                <span>网络行为风险</span>
+                                <div class="risk-bar"><div class="risk-fill" style="width: 15%"></div></div>
+                                <span class="risk-level low">低</span>
+                            </div>
+                            <div class="risk-summary">
+                                <strong>综合风险等级: <span class="status-ok">安全</span></strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 防骗教育模块 -->
+            <section id="education" class="tab-content">
+                <div id="education-content">
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card" onclick="educationModule.showDetail(1)">
+                            <h3>电信诈骗识别</h3>
+                            <span class="category">电信诈骗</span>
+                            <span class="difficulty 初级">初级</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="knowledge-card" onclick="educationModule.showDetail(2)">
+                            <h3>网络投资陷阱</h3>
+                            <span class="category">投资诈骗</span>
+                            <span class="difficulty 中级">中级</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="knowledge-card" onclick="educationModule.showDetail(3)">
+                            <h3>情感诈骗识别</h3>
+                            <span class="category">情感诈骗</span>
+                            <span class="difficulty 初级">初级</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="knowledge-card" onclick="educationModule.showDetail(4)">
+                            <h3>身份冒充诈骗</h3>
+                            <span class="category">身份诈骗</span>
+                            <span class="difficulty 中级">中级</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 举报中心模块 -->
+            <section id="report" class="tab-content">
+                <div id="report-content">
+                    <!-- 举报内容将由JavaScript动态生成 -->
+                </div>
+            </section>
+
+            <!-- 心理咨询模块 -->
+            <section id="consultation" class="tab-content">
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>💬 AI心理咨询师</h3>
+                        <div id="chatHistory" class="chat-history"></div>
+                        <div class="chat-input-group">
+                            <input type="text" id="chatInput" placeholder="描述您的困扰或疑问...">
+                            <button class="btn btn-primary" id="sendBtn">发送</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>📞 专业咨询热线</h3>
+                        <div class="contact-list">
+                            <p><strong>全国反诈中心:</strong> 96110</p>
+                            <p><strong>心理危机干预:</strong> 400-161-9995</p>
+                            <p><strong>法律援助热线:</strong> 12348</p>
+                            <p><strong>消费者投诉:</strong> 12315</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 防护工具模块 -->
+            <section id="tools" class="tab-content">
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>🔧 防护工具箱</h3>
+                        <div class="tool-buttons">
+                            <button class="btn btn-primary">安装浏览器防护插件</button>
+                            <button class="btn btn-primary">下载手机防护APP</button>
+                            <button class="btn btn-primary">设置短信拦截</button>
+                            <button class="btn btn-primary">配置来电识别</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>🛡️ 实时防护状态</h3>
+                        <div class="protection-status">
+                            <p>浏览器防护: <span class="status-ok">✅ 已启用</span></p>
+                            <p>短信拦截: <span class="status-ok">✅ 已启用</span></p>
+                            <p>来电识别: <span class="status-warning">⚠️ 部分启用</span></p>
+                            <p>应用监控: <span class="status-ok">✅ 已启用</span></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 通知区域 -->
+    <div id="notifications" class="notifications"></div>
+
+    <script src="js/keywords-database.js"></script>
+    <script src="js/risk-algorithm.js"></script>
+    <script src="js/ai-integration.js"></script>
+    <script src="js/data-storage.js"></script>
+    <script src="js/realtime-monitor.js"></script>
+    <script src="js/education-module.js"></script>
+    <script src="js/report-system.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/shortcuts.js"></script>
+    <script src="js/voice-alerts.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/mobile.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

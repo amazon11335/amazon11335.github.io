@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关键词检测测试</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 关键词检测引擎测试</h1>
+        
+        <div class="card">
+            <h3>测试输入</h3>
+            <textarea id="testInput" placeholder="输入测试文本..." rows="4" style="width: 100%; margin-bottom: 15px;"></textarea>
+            <button class="btn btn-primary" onclick="testDetection()">开始检测</button>
+            <button class="btn btn-success" onclick="loadTestCases()">加载测试用例</button>
+        </div>
+
+        <div class="card">
+            <h3>检测结果</h3>
+            <div id="testResults"></div>
+        </div>
+
+        <div class="card">
+            <h3>关键词库统计</h3>
+            <div id="keywordStats"></div>
+        </div>
+
+        <div class="card">
+            <h3>预设测试用例</h3>
+            <div class="test-cases">
+                <button class="btn btn-outline" onclick="testCase('占卜大师免费算命，准确率99%，转运改命只需998元')">占卜诈骗测试</button>
+                <button class="btn btn-outline" onclick="testCase('投资理财稳赚不赔，内幕消息日赚千元，保本保息')">投资诈骗测试</button>
+                <button class="btn btn-outline" onclick="testCase('我是公安局的，你涉嫌洗钱，需要配合调查，请转账到安全账户')">身份冒充测试</button>
+                <button class="btn btn-outline" onclick="testCase('亲爱的，我在国外遇到困难，急需用钱，请马上转账救我')">情感诈骗测试</button>
+                <button class="btn btn-outline" onclick="testCase('今天天气不错，准备去公园散步')">正常内容测试</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/keywords-database.js"></script>
+    <script>
+        function testDetection() {
+            const input = document.getElementById('testInput').value.trim();
+            if (!input) {
+                alert('请输入测试文本');
+                return;
+            }
+            
+            const result = keywordDetector.detectRisk(input);
+            displayResults(result, input);
+        }
+
+        function testCase(text) {
+            document.getElementById('testInput').value = text;
+            const result = keywordDetector.detectRisk(text);
+            displayResults(result, text);
+        }
+
+        function displayResults(result, originalText) {
+            const resultsDiv = document.getElementById('testResults');
+            
+            const riskLevelColors = {
+                'safe': '#27ae60',
+                'low': '#f39c12', 
+                'medium': '#e67e22',
+                'high': '#e74c3c',
+                'critical': '#8b0000'
+            };
+
+            const keywordTags = result.matchedKeywords.map(keyword => 
+                `<span class="tag tag-danger">${keyword}</span>`
+            ).join('');
+
+            const typesList = result.detectedTypes.map(type => 
+                `<li><strong>${type.name}</strong> - 匹配: ${type.matches.join(', ')} (得分: ${type.score})</li>`
+            ).join('');
+
+            const suggestionsList = result.suggestions.map(suggestion => 
+                `<li>${suggestion}</li>`
+            ).join('');
+
+            resultsDiv.innerHTML = `
+                <div style="border-left: 4px solid ${riskLevelColors[result.riskLevel]}; padding: 15px; margin: 10px 0; background: #f8f9fa;">
+                    <h4>检测文本：</h4>
+                    <p style="background: #fff; padding: 10px; border-radius: 5px; margin: 10px 0;">${originalText}</p>
+                    
+                    <h4>风险评估：</h4>
+                    <p><strong>总分：</strong> ${result.totalScore}</p>
+                    <p><strong>风险等级：</strong> <span style="color: ${riskLevelColors[result.riskLevel]}; font-weight: bold;">${result.riskLevel.toUpperCase()}</span></p>
+                    
+                    <h4>匹配关键词：</h4>
+                    <div class="tag-container">${keywordTags || '无'}</div>
+                    
+                    <h4>检测到的诈骗类型：</h4>
+                    <ul>${typesList || '<li>无检测到诈骗类型</li>'}</ul>
+                    
+                    <h4>安全建议：</h4>
+                    <ul>${suggestionsList}</ul>
+                    
+                    <p><strong>检测时间：</strong> ${new Date().toLocaleString()}</p>
+                </div>
+            `;
+        }
+
+        function loadTestCases() {
+            const testCases = [
+                '占卜大师免费算命，准确率99%，转运改命只需998元',
+                '投资理财稳赚不赔，内幕消息日赚千元，保本保息',
+                '我是公安局的，你涉嫌洗钱，需要配合调查，请转账到安全账户',
+                '亲爱的，我在国外遇到困难，急需用钱，请马上转账救我',
+                '兼职刷单日赚300，先交保证金500元，完成任务后返还',
+                '慈善募捐救助贫困儿童，请转账到指定账户献爱心',
+                '今天天气不错，准备去公园散步'
+            ];
+
+            let results = '<h4>批量测试结果：</h4>';
+            testCases.forEach((testCase, index) => {
+                const result = keywordDetector.detectRisk(testCase);
+                results += `
+                    <div style="margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        <p><strong>测试${index + 1}：</strong>${testCase}</p>
+                        <p><strong>风险等级：</strong> ${result.riskLevel} (${result.totalScore}分)</p>
+                        <p><strong>匹配关键词：</strong> ${result.matchedKeywords.join(', ') || '无'}</p>
+                    </div>
+                `;
+            });
+
+            document.getElementById('testResults').innerHTML = results;
+        }
+
+        function displayKeywordStats() {
+            const stats = keywordDetector.getStatistics();
+            const statsDiv = document.getElementById('keywordStats');
+            
+            let statsHtml = '<h4>关键词库统计：</h4>';
+            for (const [type, data] of Object.entries(stats)) {
+                statsHtml += `
+                    <div style="margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                        <p><strong>${data.name}</strong></p>
+                        <p>关键词数量: ${data.keywordCount}</p>
+                        <p>权重: ${data.weight}</p>
+                    </div>
+                `;
+            }
+            
+            const totalKeywords = Object.values(stats).reduce((sum, data) => sum + data.keywordCount, 0);
+            statsHtml += `<p><strong>总关键词数量：</strong> ${totalKeywords}</p>`;
+            
+            statsDiv.innerHTML = statsHtml;
+        }
+
+        // 页面加载时显示统计信息
+        window.addEventListener('load', function() {
+            displayKeywordStats();
+        });
+    </script>
+</body>
+</html>

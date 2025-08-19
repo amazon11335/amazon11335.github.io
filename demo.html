@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI组件演示</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <div class="container">
+        <h1>UI组件演示页面</h1>
+        
+        <!-- 按钮演示 -->
+        <section style="margin: 30px 0;">
+            <h2>按钮组件</h2>
+            <button class="btn btn-primary tooltip">
+                主要按钮
+                <span class="tooltiptext">这是一个主要按钮</span>
+            </button>
+            <button class="btn btn-success">成功按钮</button>
+            <button class="btn btn-warning">警告按钮</button>
+            <button class="btn btn-danger">危险按钮</button>
+            <button class="btn btn-outline">轮廓按钮</button>
+        </section>
+
+        <!-- 徽章演示 -->
+        <section style="margin: 30px 0;">
+            <h2>徽章组件</h2>
+            <span class="badge badge-success">成功</span>
+            <span class="badge badge-warning">警告</span>
+            <span class="badge badge-danger">危险</span>
+            <span class="badge badge-info">信息</span>
+        </section>
+
+        <!-- 开关演示 -->
+        <section style="margin: 30px 0;">
+            <h2>开关组件</h2>
+            <div class="switch-label">
+                <span>功能开关</span>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+                <span class="badge badge-success">已启用</span>
+            </div>
+        </section>
+
+        <!-- 标签演示 -->
+        <section style="margin: 30px 0;">
+            <h2>标签组件</h2>
+            <div class="tag-container">
+                <span class="tag tag-primary">主要标签</span>
+                <span class="tag tag-success">成功标签</span>
+                <span class="tag tag-warning">警告标签</span>
+                <span class="tag tag-danger">危险标签</span>
+            </div>
+        </section>
+
+        <!-- 评分演示 -->
+        <section style="margin: 30px 0;">
+            <h2>评分组件</h2>
+            <div class="rating">
+                <span class="star active">★</span>
+                <span class="star active">★</span>
+                <span class="star active">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+            </div>
+        </section>
+
+        <!-- 步骤条演示 -->
+        <section style="margin: 30px 0;">
+            <h2>步骤条组件</h2>
+            <div class="steps">
+                <div class="step completed">
+                    <div class="step-number">1</div>
+                    <div class="step-title">已完成</div>
+                </div>
+                <div class="step active">
+                    <div class="step-number">2</div>
+                    <div class="step-title">进行中</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">待完成</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 折叠面板演示 -->
+        <section style="margin: 30px 0;">
+            <h2>折叠面板组件</h2>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(0)">
+                        <span>面板标题 1</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>这是面板1的内容。可以包含任何HTML内容。</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(1)">
+                        <span>面板标题 2</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>这是面板2的内容。支持展开和收起功能。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 时间轴演示 -->
+        <section style="margin: 30px 0;">
+            <h2>时间轴组件</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2024-01-15 14:30</div>
+                    <div class="timeline-content">
+                        <strong>重要事件</strong>
+                        <p>这是一个重要的时间节点描述。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2024-01-15 10:15</div>
+                    <div class="timeline-content">
+                        <strong>普通事件</strong>
+                        <p>这是另一个时间节点的描述。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 卡片网格演示 -->
+        <section style="margin: 30px 0;">
+            <h2>卡片网格组件</h2>
+            <div class="card-grid">
+                <div class="mini-card">
+                    <div class="mini-card-title">卡片标题 1</div>
+                    <div class="mini-card-content">这是卡片的内容描述，可以包含多行文本。</div>
+                </div>
+                <div class="mini-card">
+                    <div class="mini-card-title">卡片标题 2</div>
+                    <div class="mini-card-content">另一个卡片的内容，展示不同的信息。</div>
+                </div>
+                <div class="mini-card">
+                    <div class="mini-card-title">卡片标题 3</div>
+                    <div class="mini-card-content">第三个卡片，演示网格布局效果。</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分页演示 -->
+        <section style="margin: 30px 0;">
+            <h2>分页组件</h2>
+            <div class="pagination">
+                <button disabled>上一页</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>下一页</button>
+            </div>
+        </section>
+
+        <!-- 面包屑演示 -->
+        <section style="margin: 30px 0;">
+            <h2>面包屑导航</h2>
+            <div class="breadcrumb">
+                <div class="breadcrumb-item">
+                    <a href="#">首页</a>
+                </div>
+                <div class="breadcrumb-item">
+                    <a href="#">组件</a>
+                </div>
+                <div class="breadcrumb-item">演示页面</div>
+            </div>
+        </section>
+
+        <!-- 模态框演示 -->
+        <section style="margin: 30px 0;">
+            <h2>模态框组件</h2>
+            <button class="btn btn-primary" onclick="showModal('演示标题', '<p>这是模态框的内容。</p><p>可以包含任何HTML内容。</p>')">
+                打开模态框
+            </button>
+        </section>
+
+        <!-- 进度条演示 -->
+        <section style="margin: 30px 0;">
+            <h2>进度条组件</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 60%"></div>
+            </div>
+            <button class="btn btn-primary" onclick="animateProgress()">动画演示</button>
+        </section>
+    </div>
+
+    <script src="js/components.js"></script>
+    <script>
+        function animateProgress() {
+            const progressFill = document.querySelector('.progress-fill');
+            const randomWidth = Math.random() * 100;
+            UIComponents.animateProgressBar(progressFill, randomWidth);
+        }
+    </script>
+</body>
+</html>

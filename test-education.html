@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教育模块测试</title>
+    <link rel="stylesheet" href="css/education-report.css">
+    <style>
+        body { padding: 20px; background: #f5f5f5; }
+    </style>
+</head>
+<body>
+    <h1>防骗教育模块测试</h1>
+    
+    <div class="knowledge-grid">
+        <div class="knowledge-card" onclick="alert('点击了电信诈骗')">
+            <h3>电信诈骗识别</h3>
+            <span class="category">电信诈骗</span>
+            <span class="difficulty 初级">初级</span>
+            <div class="progress-bar">
+                <div class="progress" style="width: 0%"></div>
+            </div>
+        </div>
+        <div class="knowledge-card" onclick="alert('点击了投资诈骗')">
+            <h3>网络投资陷阱</h3>
+            <span class="category">投资诈骗</span>
+            <span class="difficulty 中级">中级</span>
+            <div class="progress-bar">
+                <div class="progress" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/education-module.js"></script>
+</body>
+</html>
